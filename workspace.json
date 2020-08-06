@@ -1,8 +1,93 @@
 {
   "version": 1,
-  "projects": {},
+  "projects": {
+    "next": {
+      "root": "apps/next",
+      "sourceRoot": "apps/next",
+      "projectType": "application",
+      "schematics": {},
+      "architect": {
+        "build": {
+          "builder": "@nrwl/next:build",
+          "options": {
+            "root": "apps/next",
+            "outputPath": "dist/apps/next"
+          },
+          "configurations": {
+            "production": {}
+          }
+        },
+        "serve": {
+          "builder": "@nrwl/next:server",
+          "options": {
+            "buildTarget": "next:build",
+            "dev": true
+          },
+          "configurations": {
+            "production": {
+              "buildTarget": "next:build:production",
+              "dev": false
+            }
+          }
+        },
+        "export": {
+          "builder": "@nrwl/next:export",
+          "options": {
+            "buildTarget": "next:build:production"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:lint",
+          "options": {
+            "linter": "eslint",
+            "tsConfig": [
+              "apps/next/tsconfig.json",
+              "apps/next/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!apps/next/**/*"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "apps/next/jest.config.js",
+            "tsConfig": "apps/next/tsconfig.spec.json",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "next-e2e": {
+      "root": "apps/next-e2e",
+      "sourceRoot": "apps/next-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/next-e2e/cypress.json",
+            "tsConfig": "apps/next-e2e/tsconfig.e2e.json",
+            "devServerTarget": "next:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "next:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:lint",
+          "options": {
+            "linter": "eslint",
+            "tsConfig": ["apps/next-e2e/tsconfig.e2e.json"],
+            "exclude": ["**/node_modules/**", "!apps/next-e2e/**/*"]
+          }
+        }
+      }
+    }
+  },
   "cli": {
-    "defaultCollection": "@nrwl/workspace"
+    "defaultCollection": "@nrwl/next"
   },
   "schematics": {
     "@nrwl/workspace": {
@@ -17,7 +102,8 @@
     },
     "@nrwl/react": {
       "application": {
-        "linter": "eslint"
+        "linter": "eslint",
+        "babel": true
       },
       "library": {
         "linter": "eslint"
@@ -28,6 +114,7 @@
     },
     "@nrwl/next": {
       "application": {
+        "style": "scss",
         "linter": "eslint"
       }
     },
@@ -65,5 +152,6 @@
         "linter": "eslint"
       }
     }
-  }
+  },
+  "defaultProject": "next"
 }
