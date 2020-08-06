@@ -9,7 +9,7 @@ module.exports = async function customServer(app, settings) {
   const handle = app.getRequestHandler()
   await app.prepare()
   return createServer((req, res) => {
-    if (req.url === '/vue' || /^\/js/.test(req.url) || /^\/img/.test(req.url)) {
+    if (req.url === '/vue' || /^\/_nuxt/.test(req.url)) {
       return proxy.web(req, res)
     }
     return handle(req, res)
