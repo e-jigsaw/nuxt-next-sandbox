@@ -21,7 +21,8 @@
           "builder": "@nrwl/next:server",
           "options": {
             "buildTarget": "next:build",
-            "dev": true
+            "dev": true,
+            "customServerPath": "server.js"
           },
           "configurations": {
             "production": {
