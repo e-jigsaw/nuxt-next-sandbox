@@ -84,6 +84,91 @@
           }
         }
       }
+    },
+    "nuxt": {
+      "projectType": "application",
+      "root": "apps/nuxt",
+      "sourceRoot": "apps/nuxt/src",
+      "architect": {
+        "build": {
+          "builder": "@nx-plus/vue:browser",
+          "options": {
+            "dest": "dist/apps/nuxt",
+            "index": "apps/nuxt/public/index.html",
+            "main": "apps/nuxt/src/main.ts",
+            "tsConfig": "apps/nuxt/tsconfig.app.json"
+          },
+          "configurations": {
+            "production": {
+              "mode": "production",
+              "filenameHashing": true,
+              "productionSourceMap": true,
+              "css": {
+                "extract": true,
+                "sourceMap": false
+              }
+            }
+          }
+        },
+        "serve": {
+          "builder": "@nx-plus/vue:dev-server",
+          "options": {
+            "browserTarget": "nuxt:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "nuxt:build:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:lint",
+          "options": {
+            "linter": "eslint",
+            "tsConfig": [
+              "apps/nuxt/tsconfig.app.json",
+              "apps/nuxt/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!apps/nuxt/**/*"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "apps/nuxt/jest.config.js",
+            "tsConfig": "apps/nuxt/tsconfig.spec.json",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "nuxt-e2e": {
+      "root": "apps/nuxt-e2e",
+      "sourceRoot": "apps/nuxt-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/nuxt-e2e/cypress.json",
+            "tsConfig": "apps/nuxt-e2e/tsconfig.e2e.json",
+            "devServerTarget": "nuxt:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "nuxt:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:lint",
+          "options": {
+            "linter": "eslint",
+            "tsConfig": ["apps/nuxt-e2e/tsconfig.e2e.json"],
+            "exclude": ["**/node_modules/**", "!apps/nuxt-e2e/**/*"]
+          }
+        }
+      }
     }
   },
   "cli": {

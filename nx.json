@@ -28,6 +28,13 @@
     "next-e2e": {
       "tags": [],
       "implicitDependencies": ["next"]
+    },
+    "nuxt": {
+      "tags": []
+    },
+    "nuxt-e2e": {
+      "tags": [],
+      "implicitDependencies": ["nuxt"]
     }
   }
 }
